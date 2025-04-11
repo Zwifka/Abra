@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Uma perguntinha fofa 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ffe0f0, #ffe8f8);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #box {
+      background-color: #fff0f8;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      position: absolute;
+      text-align: center;
+      transition: top 0.3s ease, left 0.3s ease;
+    }
+
+    h2 {
+      color: #ff4081;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .sim {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    .nao {
+      background-color: #fff;
+      border: 2px solid #ff69b4;
+      color: #ff69b4;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+<div id="box">
+  <h2>Manda fototeta? 😳💕</h2>
+  <button class="sim" id="sim">Sim 💌</button>
+  <button class="nao" id="nao">Não 😶</button>
+</div>
+
+<script>
+  const box = document.getElementById('box');
+  const naoBtn = document.getElementById('nao');
+  const simBtn = document.getElementById('sim');
+
+  let tentativasNao = 0;
+  let mensagemMostrada = false;
+
+  function moverCaixa() {
+    const newLeft = Math.random() * (window.innerWidth - box.offsetWidth);
+    const newTop = Math.random() * (window.innerHeight - box.offsetHeight);
+    box.style.left = `${newLeft}px`;
+    box.style.top = `${newTop}px`;
+  }
+
+  function tentarFugir() {
+    tentativasNao++;
+    moverCaixa(); // A caixa vai se mover
+
+    if (tentativasNao >= 5 && !mensagemMostrada) {
+      mensagemMostrada = true;
+      alert('CLIQUE EM SIM 💖'); // Mostra a mensagem após 5 tentativas
+    }
+  }
+
+  // Desktop: se o mouse se aproxima do botão "não"
+  document.addEventListener('mousemove', function(e) {
+    const naoRect = naoBtn.getBoundingClientRect();
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    const distX = Math.abs(mouseX - (naoRect.left + naoRect.width / 2));
+    const distY = Math.abs(mouseY - (naoRect.top + naoRect.height / 2));
+
+    if (distX < 80 && distY < 50) {
+      tentarFugir();
+    }
+  });
+
+  // Mobile: tentar tocar no botão "não"
+  naoBtn.addEventListener('touchstart', function(e) {
+    e.preventDefault(); // evita o clique real no botão
+    tentarFugir();
+  });
+
+  // Impede o clique no botão "não"
+  naoBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+  });
+
+  // Clicou no SIM
+  simBtn.addEventListener('click', function() {
+    alert('Me peça o que quiser em troca 😘');
+  });
+
+  // Centraliza a caixa no carregamento
+  window.onload = () => {
+    box.style.left = `${(window.innerWidth - box.offsetWidth) / 2}px`;
+    box.style.top = `${(window.innerHeight - box.offsetHeight) / 2}px`;
+  };
+</script>
+
+</body>
+</html>
